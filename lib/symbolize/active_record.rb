@@ -80,7 +80,7 @@ module Symbolize::ActiveRecord
           const_set const.upcase, values unless const_defined? const.upcase
           ev = if i18n
             # This one is a dropdown helper
-            code =  "#{const.upcase}.map { |k,v| [I18n.translate(\"activerecord.symbolizes.\#{ActiveSupport::Inflector.underscore(self.model_name)}.#{attr_name}.\#{k}\"), k] }" #.to_sym rescue nila
+            code =  "#{const.upcase}.map { |k,v| [I18n.translate(\"activerecord.attributes.\#{ActiveSupport::Inflector.underscore(self.model_name)}.enums.#{attr_name}.\#{k}\"), k] }" #.to_sym rescue nila
             "def self.get_#{const}; #{code}; end;"
           else
             "def self.get_#{const}; #{const.upcase}.map(&:reverse); end"
@@ -169,7 +169,7 @@ module Symbolize::ActiveRecord
   # Return an attribute's i18n
   def read_i18n_attribute attr_name
     attr = read_attribute(attr_name)
-    t = I18n.translate("activerecord.symbolizes.#{self.class.model_name.underscore}.#{attr_name}.#{attr}") #.to_sym rescue nila
+    t = I18n.translate("activerecord.attributes.#{self.class.model_name.underscore}.enums.#{attr_name}.#{attr}") #.to_sym rescue nila
     t.is_a?(Hash) ? nil : t
   end
 
